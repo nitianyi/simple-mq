@@ -16,15 +16,24 @@
 
 package org.ztz.simple.mq.boot;
 
+import java.net.URLDecoder;
+import java.util.Base64;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.ztz.simple.mq.transport.CoreTransport;
 
 @ComponentScan
 @SpringBootApplication
 public class Bootstrap {
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Bootstrap.class, args);
+		String s = "\u83b7\u53d6\u5fae\u4fe1\u767b\u5f55\u4fe1\u606f\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5";
+		
+//		byte[] dest = Base64.getDecoder().decode();
+		System.out.println(URLDecoder.decode(s, "UTF-8"));
+		new CoreTransport(65456).startup();
+//		SpringApplication.run(Bootstrap.class, args);
 	}
 }
