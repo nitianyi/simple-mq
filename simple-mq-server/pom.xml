@@ -12,6 +12,7 @@
 	<artifactId>simple-mq-server</artifactId>
 	<name>simple-mq-server</name>
 	<description>simple-mq-server</description>
+	<url>https://github.com/nitianyi/simple-mq</url>
 
 	<dependencies>
 		<dependency>
@@ -37,15 +38,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.msgpack</groupId>
-			<artifactId>msgpack</artifactId>
-			<version>0.6.12</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>21.0</version>
 		</dependency>
 	</dependencies>
 

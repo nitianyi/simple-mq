@@ -4,20 +4,27 @@ import java.io.Serializable;
 
 import org.msgpack.annotation.Message;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@Getter
-@Setter
-@ToString
+@Data
 @Message
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@RequiredArgsConstructor(staticName = "of")
 @SuppressWarnings("serial")
-public class SimpleMsg implements Serializable {
+public class SimpleMsg extends BaseMsg implements Serializable {
 
+	@NonNull
 	private String msgId;
 	
+	@NonNull
 	private String msg;
 	
-	private String top;
+	@NonNull
+	private String topic;
+	
 }
