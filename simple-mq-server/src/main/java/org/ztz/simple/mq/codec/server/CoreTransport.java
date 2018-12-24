@@ -1,7 +1,4 @@
-package org.ztz.simple.mq.transport;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package org.ztz.simple.mq.codec.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -10,12 +7,14 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CoreTransport {
 
 	private int port;
-	
-	private static Logger logger = LoggerFactory.getLogger(CoreTransport.class);
 	
 	public CoreTransport(int port) {
 		this.port = port;
@@ -32,14 +31,19 @@ public class CoreTransport {
 					@Override
 					protected void initChannel(Channel channel) throws Exception {
 						// 添加业务处理器
-						channel.pipeline().addLast(new TransportHandler());
+						channel.pipeline()
+							.addLast(new LengthFieldBasedFrameDecoder(65535, 0, 2, 0, 2))
+							.addLast(new MessageDecoder())
+							.addLast(new LengthFieldPrepender(2))
+							.addLast(new MessageEncoder())
+							.addLast(new ServerMessageHandler());
 					}
 			});
 			ChannelFuture future = bootstrap.bind().sync();
-			logger.info("Server starts successfully and listen on {}", future.channel().localAddress());
+			log.info("Server starts successfully and listen on {}", future.channel().localAddress());
 			future.channel().closeFuture().sync();
 		} catch (Exception e) {
-			logger.error("error when server running,cause->{}", e.getMessage());
+			log.error("error when server running,cause->{}", e.getMessage());
 		} finally {
 			group.shutdownGracefully();
 		}

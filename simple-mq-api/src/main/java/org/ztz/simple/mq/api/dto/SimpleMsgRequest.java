@@ -3,6 +3,7 @@ package org.ztz.simple.mq.api.dto;
 import java.io.Serializable;
 
 import org.msgpack.annotation.Message;
+import org.ztz.simple.mq.api.enums.MsgTypeEnum;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @RequiredArgsConstructor(staticName = "of")
 @SuppressWarnings("serial")
-public class SimpleMsg extends BaseMsg implements Serializable {
+public class SimpleMsgRequest implements Serializable {
 
 	@NonNull
 	private String msgId;
@@ -26,5 +27,8 @@ public class SimpleMsg extends BaseMsg implements Serializable {
 	
 	@NonNull
 	private String topic;
+	
+	@NonNull
+	protected MsgTypeEnum msgType;
 	
 }

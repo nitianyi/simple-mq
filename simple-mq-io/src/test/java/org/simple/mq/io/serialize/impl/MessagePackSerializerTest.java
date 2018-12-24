@@ -2,6 +2,8 @@ package org.simple.mq.io.serialize.impl;
 
 import org.junit.Test;
 import org.simple.mq.io.serialize.BaseTest;
+import org.ztz.simple.mq.api.dto.SimpleMsgRequest;
+import org.ztz.simple.mq.api.enums.MsgTypeEnum;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,5 +22,19 @@ public class MessagePackSerializerTest extends BaseTest {
 		
 		nothing = serializer.deserialize(bytes, Nothing.class);
 		log.info("{}", nothing);
+	}
+	
+	@Test
+	public void testEnumSerialize() {
+		byte[] bytes = serializer.serialize(MsgTypeEnum.PRODUCE);
+		log.info("{}", bytes.length);
+		
+		log.info("{}", serializer.deserialize(bytes, MsgTypeEnum.class));
+		
+		SimpleMsgRequest msg = SimpleMsgRequest.of("1", "msg", "topic", MsgTypeEnum.PRODUCE);
+		bytes = serializer.serialize(msg);
+		log.info("{}", bytes.length);
+		
+		log.info("{}", serializer.deserialize(bytes, SimpleMsgRequest.class));
 	}
 }

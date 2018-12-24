@@ -56,6 +56,12 @@
 				<artifactId>msgpack</artifactId>
 				<version>0.6.12</version>
 			</dependency>
+			
+			<dependency>
+			    <groupId>org.msgpack</groupId>
+			    <artifactId>msgpack-core</artifactId>
+			    <version>0.8.16</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.objenesis</groupId>

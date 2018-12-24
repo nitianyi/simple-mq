@@ -1,4 +1,4 @@
-package org.ztz.simple.mq.transport;
+package org.ztz.simple.mq.codec.server;
 
 import java.util.concurrent.atomic.AtomicLong;
 

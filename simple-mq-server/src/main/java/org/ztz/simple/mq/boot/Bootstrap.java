@@ -22,7 +22,7 @@ import java.util.Base64;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.ztz.simple.mq.transport.CoreTransport;
+import org.ztz.simple.mq.codec.server.CoreTransport;
 
 @ComponentScan
 @SpringBootApplication
