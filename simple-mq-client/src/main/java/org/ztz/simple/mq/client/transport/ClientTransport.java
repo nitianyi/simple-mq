@@ -60,8 +60,9 @@ public class ClientTransport {
 	
 	void prepareMsg(Channel channel) {
 		IntStream.rangeClosed(1, 100).forEach(i -> {
-			channel.writeAndFlush(SimpleMsgRequest.of(String.valueOf(i), "Msg" + i, "Topic_" + i, MsgTypeEnum.PRODUCE));
+			channel.write(SimpleMsgRequest.of(String.valueOf(i), "Msg" + i, "Topic_" + i, MsgTypeEnum.PRODUCE));
 		});
+		channel.flush();
 		log.info("finish sending msgs");
 	}
 	

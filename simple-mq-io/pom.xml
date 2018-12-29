@@ -80,5 +80,10 @@
 			<artifactId>simple-mq-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.mapdb</groupId>
+		    <artifactId>mapdb</artifactId>
+		</dependency>
 	</dependencies>
 </project>
