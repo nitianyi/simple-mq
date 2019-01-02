@@ -31,4 +31,6 @@ public class SimpleMsgRequest implements Serializable {
 	@NonNull
 	protected MsgTypeEnum msgType;
 	
+	private long timeout;
+	
 }

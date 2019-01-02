@@ -1,5 +1,7 @@
 package org.ztz.simple.mq.client.api;
 
+import org.ztz.simple.mq.api.dto.SimpleMsgResponse;
+
 /**
  * 
  * @author Tony
@@ -7,8 +9,8 @@ package org.ztz.simple.mq.client.api;
  */
 public interface Consumer {
 
-	public String pull(String topic);
+	public SimpleMsgResponse pull(String topic);
 	
-	public String pull(String topic,  long timeout);
+	public SimpleMsgResponse pull(String topic,  long timeout);
 	
 }
