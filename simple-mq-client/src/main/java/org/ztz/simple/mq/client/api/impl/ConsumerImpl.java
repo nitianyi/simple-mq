@@ -1,30 +1,27 @@
 package org.ztz.simple.mq.client.api.impl;
 
-import java.util.concurrent.ConcurrentMap;
+import static org.ztz.simple.mq.client.api.SimpleMsgClientContext.CONTEXT;
+import static org.simple.mq.api.tools.PrintExceptionStacktrace.getStacktrace;
+
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.simple.mq.api.tools.IdGenerator;
-import org.simple.mq.api.tools.PrintExceptionStacktrace;
 import org.springframework.stereotype.Service;
 import org.ztz.simple.mq.api.dto.SimpleMsgRequest;
 import org.ztz.simple.mq.api.dto.SimpleMsgResponse;
 import org.ztz.simple.mq.api.enums.MsgTypeEnum;
 import org.ztz.simple.mq.client.api.Consumer;
-
-import com.google.common.collect.Maps;
+import org.ztz.simple.mq.client.api.SimpleMsgClientContext;
 
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
+@Service
 public class ConsumerImpl implements Consumer {
 
-	/**
-	 * 消息响应容器，阻塞等待
-	 */
-	private ConcurrentMap<String, SynchronousQueue<SimpleMsgResponse>> respContainer = Maps.newConcurrentMap();
+	
 	
 	@Override
 	public SimpleMsgResponse pull(String topic) {
@@ -34,9 +31,8 @@ public class ConsumerImpl implements Consumer {
 	@Override
 	public SimpleMsgResponse pull(String topic, long timeout) {
 		String reqId = IdGenerator.generate();
-		SimpleMsgRequest request = getConsumeRequest(reqId, topic, timeout);
-		SynchronousQueue<SimpleMsgResponse> resp = new SynchronousQueue<>();
-		respContainer.putIfAbsent(reqId, resp);
+		SimpleMsgRequest request = buildConsumeRequest(reqId, topic, timeout);
+		SynchronousQueue<SimpleMsgResponse> resp = CONTEXT.waitforMsgResponse(reqId);
 		try {
 			getChannel().writeAndFlush(request);
 			
@@ -46,19 +42,20 @@ public class ConsumerImpl implements Consumer {
 			
 			return resp.take();
 		} catch (Exception e) {
-			log.error("error when consuming msg, ->cause->{}", PrintExceptionStacktrace.getStacktrace(e));
+			log.error("error when consuming msg, ->cause->{}", getStacktrace(e));
 			throw new RuntimeException(e);
 		}
 	}
 	
-	private SimpleMsgRequest getConsumeRequest(String reqId, String topic, long timeout) {
+	private SimpleMsgRequest buildConsumeRequest(String reqId, String topic, long timeout) {
 		SimpleMsgRequest request = SimpleMsgRequest.of(reqId, "", topic, MsgTypeEnum.CONSUME);
 		request.setTimeout(timeout);
+		request.setTimestamp(System.currentTimeMillis());
 		return request;
 	}
 	
 	private Channel getChannel() {
-		return null;
+		return SimpleMsgClientContext.CONTEXT.getChannelWithLB();
 	}
 
 }

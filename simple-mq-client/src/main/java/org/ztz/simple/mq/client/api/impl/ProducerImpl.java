@@ -10,6 +10,7 @@ import org.simple.mq.api.tools.PrintExceptionStacktrace;
 import org.ztz.simple.mq.api.dto.SimpleMsgRequest;
 import org.ztz.simple.mq.api.enums.MsgTypeEnum;
 import org.ztz.simple.mq.client.api.Producer;
+import org.ztz.simple.mq.client.api.SimpleMsgClientContext;
 
 import io.netty.channel.Channel;
 import io.netty.util.concurrent.Future;
@@ -19,6 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProducerImpl implements Producer {
 
+	/** 
+	 * 初始化参数也可以从配置读取
+	 */
 	private BlockingDeque<String[]> msgs = new LinkedBlockingDeque<>(10000);
 	
 	private static volatile ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
@@ -70,8 +74,7 @@ public class ProducerImpl implements Producer {
 	}
 	
 	private Channel getChannel() {
-		// TODO 
-		return null;
+		return SimpleMsgClientContext.CONTEXT.getChannelWithLB();
 	}
 
 }

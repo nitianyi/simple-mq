@@ -33,4 +33,6 @@ public class SimpleMsgRequest implements Serializable {
 	
 	private long timeout;
 	
+	private long timestamp;
+	
 }

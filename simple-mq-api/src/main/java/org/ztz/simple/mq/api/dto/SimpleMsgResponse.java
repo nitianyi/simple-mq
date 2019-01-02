@@ -15,4 +15,7 @@ public class SimpleMsgResponse implements Serializable {
 
 	@NonNull
 	private String msgId;
+	
+	@NonNull
+	private String msg;
 }

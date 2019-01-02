@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 
 import org.ztz.simple.mq.api.dto.SimpleMsgRequest;
 import org.ztz.simple.mq.api.enums.MsgTypeEnum;
+import org.ztz.simple.mq.client.api.SimpleMsgClientContext;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -35,8 +36,11 @@ public class ClientTransport {
 		
 		try {
 			Bootstrap bootstrap = new Bootstrap();
-			bootstrap.group(group).channel(NioSocketChannel.class).option(ChannelOption.SO_KEEPALIVE, true)
-			.remoteAddress(host, port)
+			bootstrap.group(group).channel(NioSocketChannel.class)
+				.option(ChannelOption.SO_KEEPALIVE, true)
+				.option(ChannelOption.TCP_NODELAY, true)
+				.option(ChannelOption.SO_REUSEADDR, true)
+				.remoteAddress(host, port)
 				.handler(new ChannelInitializer<Channel>() {
 
 					@Override
@@ -51,6 +55,8 @@ public class ClientTransport {
 				});
 			
 			ChannelFuture future = bootstrap.connect().sync();
+			SimpleMsgClientContext.CONTEXT.cacheChannel(host + ":" + port, future.channel());
+			log.info("client has succeeded connecting servicer-({}:{})", host, port);
 			prepareMsg(future.channel());
 //			future.channel().closeFuture().sync();
 		} finally {
