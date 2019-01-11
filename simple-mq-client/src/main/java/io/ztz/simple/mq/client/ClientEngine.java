@@ -1,4 +1,4 @@
-package io.ztz.simple.mq.client.api;
+package io.ztz.simple.mq.client;
 
 /**
  * 

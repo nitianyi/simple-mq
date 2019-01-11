@@ -1,9 +1,6 @@
-package io.ztz.simple.mq.client.transport;
+package io.ztz.simple.mq.client;
 
 import static io.ztz.simple.mq.client.api.SimpleMsgClientContext.CONTEXT;
-
-import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -15,9 +12,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
-import io.ztz.simple.mq.api.dto.SimpleMsgRequest;
-import io.ztz.simple.mq.api.enums.MsgTypeEnum;
-import io.ztz.simple.mq.client.api.ClientEngine;
+import io.ztz.simple.mq.client.transport.ClientMessageHandler;
+import io.ztz.simple.mq.client.transport.MessageDecoder;
+import io.ztz.simple.mq.client.transport.MessageEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -62,22 +59,8 @@ public class ClientTransport implements ClientEngine {
 		channel = future.channel();
 		CONTEXT.cacheChannel(host + ":" + port, channel);
 		log.info("client has succeeded connecting servicer-({}:{})", host, port);
-		prepareMsg(future.channel());
 	}
 	
-	void prepareMsg(Channel channel) {
-		IntStream.rangeClosed(1, 100).forEach(i -> {
-			channel.write(SimpleMsgRequest.of(String.valueOf(i), "Msg" + i, "Topic_" + i, MsgTypeEnum.PRODUCE));
-		});
-		channel.flush();
-		log.info("finish sending msgs");
-	}
-	
-	public static void main(String[] args) throws Exception {
-		new ClientTransport("localhost", 65456).start();
-		TimeUnit.SECONDS.sleep(10);
-	}
-
 	@Override
 	public void close() throws Exception {
 		if (channel != null && channel.isActive()) {

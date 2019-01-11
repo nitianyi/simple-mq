@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ScheduledExecutorService;
 
+import org.springframework.stereotype.Repository;
+
 import io.netty.channel.Channel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -18,6 +20,7 @@ import io.ztz.simple.mq.client.api.Producer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Repository
 public class ProducerImpl implements Producer {
 
 	/** 
@@ -46,7 +49,7 @@ public class ProducerImpl implements Producer {
 	@Override
 	public boolean sendMsg(String topic, String msg) {
 		SimpleMsgRequest request = getMsgRequest(topic, msg);
-		getChannel().write(request).addListener(new GenericFutureListener<Future<? super Void>>() {
+		getChannel().writeAndFlush(request).addListener(new GenericFutureListener<Future<? super Void>>() {
 
 			@Override
 			public void operationComplete(Future<? super Void> future) throws Exception {

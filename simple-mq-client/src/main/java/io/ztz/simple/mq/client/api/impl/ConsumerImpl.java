@@ -6,7 +6,7 @@ import static io.ztz.simple.mq.client.api.SimpleMsgClientContext.CONTEXT;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import io.netty.channel.Channel;
 import io.ztz.simple.mq.api.dto.SimpleMsgRequest;
@@ -17,7 +17,7 @@ import io.ztz.simple.mq.client.api.Consumer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Service
+@Repository
 public class ConsumerImpl implements Consumer {
 
 	

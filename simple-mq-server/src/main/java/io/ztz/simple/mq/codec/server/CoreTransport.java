@@ -49,7 +49,4 @@ public class CoreTransport {
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
-		new CoreTransport(65456).startup();
-	}
 }
