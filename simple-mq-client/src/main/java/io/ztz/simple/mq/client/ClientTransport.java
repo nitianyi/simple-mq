@@ -58,6 +58,8 @@ public class ClientTransport implements ClientEngine {
 		ChannelFuture future = bootstrap.connect().sync();
 		channel = future.channel();
 		CONTEXT.cacheChannel(host + ":" + port, channel);
+		
+		// TODO register the client in the register center in order to be discovered automatically
 		log.info("client has succeeded connecting servicer-({}:{})", host, port);
 	}
 	

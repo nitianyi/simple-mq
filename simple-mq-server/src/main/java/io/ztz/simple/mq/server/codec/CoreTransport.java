@@ -1,4 +1,4 @@
-package io.ztz.simple.mq.codec.server;
+package io.ztz.simple.mq.server.codec;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;

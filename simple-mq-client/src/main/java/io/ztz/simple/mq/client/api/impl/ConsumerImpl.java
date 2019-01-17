@@ -20,7 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class ConsumerImpl implements Consumer {
 
+	private static final String clientId;
 	
+	static {
+		clientId = "";
+	}
 	
 	@Override
 	public SimpleMsgResponse pull(String topic) {
@@ -48,6 +52,7 @@ public class ConsumerImpl implements Consumer {
 	
 	private SimpleMsgRequest buildConsumeRequest(String reqId, String topic, long timeout) {
 		SimpleMsgRequest request = SimpleMsgRequest.of(reqId, "", topic, MsgTypeEnum.CONSUME);
+		request.setClientId("");
 		request.setTimeout(timeout);
 		request.setTimestamp(System.currentTimeMillis());
 		return request;

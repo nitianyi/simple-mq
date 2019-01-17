@@ -1,4 +1,4 @@
-package io.ztz.simple.mq.codec.server;
+package io.ztz.simple.mq.server.codec;
 
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;

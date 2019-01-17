@@ -1,4 +1,4 @@
-package io.ztz.simple.mq.codec.server;
+package io.ztz.simple.mq.server.codec;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -8,6 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ServerMessageHandler extends SimpleChannelInboundHandler<SimpleMsgRequest> {
+	
+	public ServerMessageHandler() {
+		
+	}
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, SimpleMsgRequest msg) throws Exception {

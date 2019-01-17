@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.ztz.simple.mq.boot;
+package io.ztz.simple.mq.server;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import io.ztz.simple.mq.codec.server.CoreTransport;
+import io.ztz.simple.mq.server.codec.CoreTransport;
 
 @ComponentScan
 @SpringBootApplication
