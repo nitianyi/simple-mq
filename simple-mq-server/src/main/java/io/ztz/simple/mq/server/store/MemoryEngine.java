@@ -41,7 +41,7 @@ public class MemoryEngine implements StoreEngine {
 	@Override
 	public SimpleMsgResponse saveMsg(String topic, SimpleMsg data) {
 		if (Strings.isNullOrEmpty(topic)) {
-			return null;
+			return new SimpleMsgResponse(data.getMsgId(), 401, "Invalid param");
 		}
 		
 		BlockingDeque<SimpleMsg> queue = null;
@@ -53,7 +53,7 @@ public class MemoryEngine implements StoreEngine {
 		}
 		
 		queue.push(data);
-		return new SimpleMsgResponse(data.getMsgId(), "OK"); // TODO Response
+		return new SimpleMsgResponse(data.getMsgId());
 	}
 
 	@Override
