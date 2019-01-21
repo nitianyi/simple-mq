@@ -1,5 +1,10 @@
 package io.ztz.simple.mq.server.codec;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -9,23 +14,25 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
+import io.ztz.simple.mq.server.SimpleMQServerContext;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CoreTransport {
+@Component
+public class CoreTransport implements InitializingBean {
 
-	private int port;
+	@Autowired
+	private Environment env;
 	
-	public CoreTransport(int port) {
-		this.port = port;
-	}
+	@Autowired
+	private SimpleMQServerContext context;
 	
 	public void startup() throws Exception {
 		EventLoopGroup group = new NioEventLoopGroup();
 		
 		try {
 			ServerBootstrap bootstrap = new ServerBootstrap();
-			bootstrap.group(group).channel(NioServerSocketChannel.class).localAddress(port)
+			bootstrap.group(group).channel(NioServerSocketChannel.class).localAddress(Integer.valueOf(env.getProperty("server.msg.port")))
 				.childHandler(new ChannelInitializer<Channel>() {
 
 					@Override
@@ -36,7 +43,7 @@ public class CoreTransport {
 							.addLast(new MessageDecoder())
 							.addLast(new LengthFieldPrepender(2))
 							.addLast(new MessageEncoder())
-							.addLast(new ServerMessageHandler());
+							.addLast(new ServerMessageHandler(context));
 					}
 			});
 			ChannelFuture future = bootstrap.bind().sync();
@@ -47,6 +54,11 @@ public class CoreTransport {
 		} finally {
 			group.shutdownGracefully();
 		}
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		startup();
 	}
 	
 }

@@ -16,17 +16,13 @@
 
 package io.ztz.simple.mq.server;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
-import io.ztz.simple.mq.server.codec.CoreTransport;
-
-@ComponentScan
 @SpringBootApplication
 public class Bootstrap {
 
 	public static void main(String[] args) throws Exception {
-		new CoreTransport(65456).startup();
-//		SpringApplication.run(Bootstrap.class, args);
+		SpringApplication.run(Bootstrap.class, args);
 	}
 }

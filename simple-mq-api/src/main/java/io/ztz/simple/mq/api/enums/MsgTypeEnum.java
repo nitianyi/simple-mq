@@ -12,5 +12,5 @@ import org.msgpack.annotation.Message;
 @Message
 public enum MsgTypeEnum {
 
-	PRODUCE, PRODUCE_RESP, CONSUME, CONSUME_RESP, PING, PONG;
+	Send, Send_Resp, Consume, Consume_resp, Ping, Pong;
 }

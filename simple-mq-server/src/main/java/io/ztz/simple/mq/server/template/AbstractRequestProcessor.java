@@ -1,15 +1,23 @@
 package io.ztz.simple.mq.server.template;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import io.ztz.simple.mq.api.dto.SimpleMsgRequest;
 import io.ztz.simple.mq.api.dto.SimpleMsgResponse;
+import io.ztz.simple.mq.server.SimpleMQServerContext;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public abstract class AbstractRequestProcessor {
+@Repository
+public abstract class AbstractRequestProcessor implements RequestProcessor {
 
-	SimpleMsgResponse process(SimpleMsgRequest request) {
+	@Autowired
+	protected SimpleMQServerContext context;
+	
+	public SimpleMsgResponse process(SimpleMsgRequest request) {
 		log.info("receive request->{}", request);
-		// TODO some validation op
+		// TODO some validation, debug, monitor code
 		
 		return execute(request);
 	}

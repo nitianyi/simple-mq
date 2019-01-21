@@ -27,12 +27,12 @@ public class MessagePackSerializerTest extends BaseTest {
 	
 	@Test
 	public void testEnumSerialize() {
-		byte[] bytes = serializer.serialize(MsgTypeEnum.PRODUCE);
+		byte[] bytes = serializer.serialize(MsgTypeEnum.Send);
 		log.info("{}", bytes.length);
 		
 		log.info("{}", serializer.deserialize(bytes, MsgTypeEnum.class));
 		
-		SimpleMsgRequest msg = SimpleMsgRequest.of("1", "msg", "topic", MsgTypeEnum.PRODUCE);
+		SimpleMsgRequest msg = SimpleMsgRequest.of("1", "msg", "topic", MsgTypeEnum.Send);
 		bytes = serializer.serialize(msg);
 		log.info("{}", bytes.length);
 		

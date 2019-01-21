@@ -13,11 +13,11 @@ import com.google.common.collect.Maps;
 
 import io.ztz.simple.mq.api.dto.DelayedSimpleMsg;
 import io.ztz.simple.mq.api.dto.SimpleMsg;
-import io.ztz.simple.mq.api.dto.SimpleMsgRequest;
 import io.ztz.simple.mq.api.dto.SimpleMsgResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+//@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 @Repository
 public class MemoryEngine implements StoreEngine {
 
@@ -28,12 +28,18 @@ public class MemoryEngine implements StoreEngine {
 		new Thread(() -> {
 			while (true) {
 				// TODO 
+				log.debug("The length of queueDB is {}", queueDB.size());
+				try {
+					TimeUnit.SECONDS.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}).start();
 	}
 	
 	@Override
-	public SimpleMsgRequest saveMsg(String topic, SimpleMsg data) {
+	public SimpleMsgResponse saveMsg(String topic, SimpleMsg data) {
 		if (Strings.isNullOrEmpty(topic)) {
 			return null;
 		}
@@ -47,22 +53,29 @@ public class MemoryEngine implements StoreEngine {
 		}
 		
 		queue.push(data);
-		return null; // TODO Response
+		return new SimpleMsgResponse(data.getMsgId(), "OK"); // TODO Response
 	}
 
 	@Override
 	public SimpleMsgResponse getMsg(String topic, String group, long timestamp, long timeout) {
 		// TODO get by group
-		
+		log.debug("input params->{} -{} -{} -{}", topic, group, timestamp, timeout);
 		BlockingDeque<SimpleMsg> queue = queueDB.get(topic);
 		if (queue == null) {
+			log.warn("The request topic ->{} not exists...");
 			return null;
 		}
 		
 		long now = System.currentTimeMillis();
 		long timeMillisToWait = timeout - (now - timestamp);
 		try {
-			SimpleMsg msg = queue.poll(timeMillisToWait, TimeUnit.MILLISECONDS);
+			SimpleMsg msg = null;
+			if (timeMillisToWait > 0) {
+				msg = queue.poll(timeMillisToWait, TimeUnit.MILLISECONDS);
+			} else {
+				msg = queue.takeFirst();
+			}
+			
 			return new SimpleMsgResponse(msg.getMsgId(), msg.getData());
 		} catch (InterruptedException e) {
 			log.warn("error when poll msg", e);

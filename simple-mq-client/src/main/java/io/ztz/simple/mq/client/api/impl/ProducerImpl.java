@@ -73,7 +73,7 @@ public class ProducerImpl implements Producer {
 	}
 	
 	private SimpleMsgRequest getMsgRequest(String topic, String msg) {
-		return SimpleMsgRequest.of(IdGenerator.generate(), msg, topic, MsgTypeEnum.PRODUCE);
+		return SimpleMsgRequest.of(IdGenerator.generate(), msg, topic, MsgTypeEnum.Send);
 	}
 	
 	private Channel getChannel() {

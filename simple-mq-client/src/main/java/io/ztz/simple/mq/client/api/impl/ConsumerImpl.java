@@ -51,7 +51,7 @@ public class ConsumerImpl implements Consumer {
 	}
 	
 	private SimpleMsgRequest buildConsumeRequest(String reqId, String topic, long timeout) {
-		SimpleMsgRequest request = SimpleMsgRequest.of(reqId, "", topic, MsgTypeEnum.CONSUME);
+		SimpleMsgRequest request = SimpleMsgRequest.of(reqId, "", topic, MsgTypeEnum.Consume);
 		request.setClientId("");
 		request.setTimeout(timeout);
 		request.setTimestamp(System.currentTimeMillis());
