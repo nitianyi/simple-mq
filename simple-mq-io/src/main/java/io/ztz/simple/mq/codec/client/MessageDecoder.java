@@ -1,4 +1,4 @@
-package io.ztz.simple.mq.server.codec;
+package io.ztz.simple.mq.codec.client;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.simple.mq.io.serialize.impl.ProtostuffSerializer;
-import io.ztz.simple.mq.api.dto.SimpleMsgRequest;
+import io.ztz.simple.mq.api.dto.SimpleMsgResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -22,13 +22,13 @@ public class MessageDecoder extends ByteToMessageDecoder {
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 		int length = in.readableBytes();
-		log.debug("received msg length ->{}", length);
+		log.debug("client decoder receives msg length ->{}", length);
 		byte[] b = new byte[length];
 		in.readBytes(b);
 		try {
-			SimpleMsgRequest msg = serializer.deserialize(b, SimpleMsgRequest.class);
+			SimpleMsgResponse msg = serializer.deserialize(b, SimpleMsgResponse.class);
 			
-			log.debug("parsed msg ->{} sucessfully", msg);
+			log.debug("parsed msg resp ->{} sucessfully", msg);
 			out.add(msg);
 		} catch (Throwable e) {
 			log.error("error when parsing msg, cause is ->{}", e.getMessage());

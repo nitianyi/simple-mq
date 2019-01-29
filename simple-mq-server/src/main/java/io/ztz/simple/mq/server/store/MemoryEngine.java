@@ -1,5 +1,6 @@
 package io.ztz.simple.mq.server.store;
 
+import java.util.Optional;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.DelayQueue;
@@ -68,19 +69,20 @@ public class MemoryEngine implements StoreEngine {
 		
 		long now = System.currentTimeMillis();
 		long timeMillisToWait = timeout - (now - timestamp);
+		SimpleMsg msg = null;
 		try {
-			SimpleMsg msg = null;
+			
 			if (timeMillisToWait > 0) {
 				msg = queue.poll(timeMillisToWait, TimeUnit.MILLISECONDS);
 			} else {
 				msg = queue.takeFirst();
 			}
 			
-			return new SimpleMsgResponse(msg.getMsgId(), msg.getData());
 		} catch (InterruptedException e) {
 			log.warn("error when poll msg", e);
 		}
-		return null;
+		return Optional.ofNullable(msg).map(m -> new SimpleMsgResponse(m.getMsgId(), m.getData()))
+				.orElseGet(() -> new SimpleMsgResponse(404, "No message exists"));
 	}
 
 }

@@ -12,7 +12,7 @@ public class ClientMessageHandler extends SimpleChannelInboundHandler<SimpleMsgR
 	
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, SimpleMsgResponse msg) throws Exception {
-		 
+		
 		log.debug("receives server msg resp->{}", msg);
 		CONTEXT.respondToWaitQueue(msg);
 	}

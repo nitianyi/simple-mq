@@ -37,6 +37,17 @@ public class SimpleMsgResponse implements Serializable {
 	
 	/**
 	 * 
+	 * @param status 状态码
+	 * @param reason 原因
+	 */
+	public SimpleMsgResponse(int status, String reason) {
+		
+		this.status = status;
+		
+		this.reason = reason;
+	}
+	/**
+	 * 
 	 * @param requestId 请求id
 	 * @param status 状态码
 	 * @param reason 原因

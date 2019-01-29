@@ -20,11 +20,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.ztz.simple.mq</groupId>
-			<artifactId>simple-mq-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.ztz.simple.mq</groupId>

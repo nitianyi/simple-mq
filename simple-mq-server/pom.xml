@@ -15,11 +15,6 @@
 	<url>https://github.com/nitianyi/simple-mq</url>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.ztz.simple.mq</groupId>
-			<artifactId>simple-mq-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		
 		<dependency>
 			<groupId>org.ztz.simple.mq</groupId>
@@ -36,11 +31,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
 		</dependency>
 
 		<dependency>

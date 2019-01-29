@@ -13,8 +13,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 import io.ztz.simple.mq.client.transport.ClientMessageHandler;
-import io.ztz.simple.mq.client.transport.MessageDecoder;
-import io.ztz.simple.mq.client.transport.MessageEncoder;
+import io.ztz.simple.mq.codec.client.MessageDecoder;
+import io.ztz.simple.mq.codec.client.MessageEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

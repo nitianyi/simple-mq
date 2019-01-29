@@ -21,6 +21,11 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
@@ -64,26 +69,26 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
-		
+
 		<dependency>
-		  <groupId>org.springframework</groupId>
-		  <artifactId>spring-context</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.ztz.simple.mq</groupId>
 			<artifactId>simple-mq-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.mapdb</groupId>
-		    <artifactId>mapdb</artifactId>
+			<groupId>org.mapdb</groupId>
+			<artifactId>mapdb</artifactId>
 		</dependency>
 	</dependencies>
 </project>
