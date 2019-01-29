@@ -1,4 +1,4 @@
-package io.simple.mq.io.serialize.impl;
+package io.ztz.simple.mq.io.serialize.impl;
 
 import org.springframework.stereotype.Service;
 
@@ -6,7 +6,7 @@ import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
-import io.simple.mq.io.serialize.Serializer;
+import io.ztz.simple.mq.io.serialize.Serializer;
 
 /**
  * Protostuff implementation

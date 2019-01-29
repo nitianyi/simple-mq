@@ -1,4 +1,4 @@
-package io.simple.mq.io.serialize.impl;
+package io.ztz.simple.mq.io.serialize.impl;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.msgpack.MessagePack;
 import org.springframework.stereotype.Service;
 
-import io.simple.mq.io.serialize.Serializer;
+import io.ztz.simple.mq.io.serialize.Serializer;
 
 /**
  * Message pack implementation

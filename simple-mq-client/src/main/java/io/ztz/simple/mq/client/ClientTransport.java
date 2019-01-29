@@ -15,6 +15,7 @@ import io.netty.handler.codec.LengthFieldPrepender;
 import io.ztz.simple.mq.client.transport.ClientMessageHandler;
 import io.ztz.simple.mq.codec.client.MessageDecoder;
 import io.ztz.simple.mq.codec.client.MessageEncoder;
+import io.ztz.simple.mq.io.serialize.Serializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,10 +28,13 @@ public class ClientTransport implements ClientEngine {
 	private EventLoopGroup group;
 	
 	private Channel channel;
+	
+	private final Serializer serializer;
 
-	public ClientTransport(String host, int port) {
+	public ClientTransport(String host, int port, Serializer serializer) {
 		this.host = host;
 		this.port = port;
+		this.serializer = serializer;
 	}
 	
 	public void start() throws Exception {
@@ -49,8 +53,8 @@ public class ClientTransport implements ClientEngine {
 					ch.pipeline()
 						.addLast(new LengthFieldBasedFrameDecoder(65535, 0, 2, 0, 2))
 						.addLast(new LengthFieldPrepender(2))
-						.addLast(new MessageDecoder())
-						.addLast(new MessageEncoder())
+						.addLast(new MessageDecoder(serializer))
+						.addLast(new MessageEncoder(serializer))
 						.addLast(new ClientMessageHandler());
 				}
 			});

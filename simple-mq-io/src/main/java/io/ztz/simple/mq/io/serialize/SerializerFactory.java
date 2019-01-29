@@ -1,4 +1,4 @@
-package io.simple.mq.io.serialize;
+package io.ztz.simple.mq.io.serialize;
 
 import java.util.Map;
 import java.util.Optional;
@@ -35,7 +35,7 @@ public class SerializerFactory implements ApplicationContextAware {
 	}
 	
 	@PostConstruct
-	public void init() {
+	private void init() {
 		serializers = context.getBeansOfType(Serializer.class);
 	}
 

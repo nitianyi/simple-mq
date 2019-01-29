@@ -1,21 +1,24 @@
 package io.ztz.simple.mq.codec.client;
 
-import org.objenesis.Objenesis;
-import org.objenesis.ObjenesisStd;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import io.simple.mq.io.serialize.impl.ProtostuffSerializer;
 import io.ztz.simple.mq.api.dto.SimpleMsgRequest;
+import io.ztz.simple.mq.io.serialize.Serializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MessageEncoder extends MessageToByteEncoder<SimpleMsgRequest> {
 
-	// TODO 
-	Objenesis objenesis = new ObjenesisStd(true);
-	ProtostuffSerializer serializer = objenesis.newInstance(ProtostuffSerializer.class);
+	/**
+	 * 构造方法
+	 * @param serializer 序列化实现实例
+	 */
+	public MessageEncoder(Serializer serializer) {
+		this.serializer = serializer;
+	}
+
+	private final Serializer serializer;
 	
 	@Override
 	protected void encode(ChannelHandlerContext ctx, SimpleMsgRequest msg, ByteBuf out) throws Exception {

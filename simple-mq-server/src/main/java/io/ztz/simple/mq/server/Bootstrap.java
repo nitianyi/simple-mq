@@ -18,7 +18,9 @@ package io.ztz.simple.mq.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
+@ComponentScan("io.ztz.simple.mq")
 @SpringBootApplication
 public class Bootstrap {
 

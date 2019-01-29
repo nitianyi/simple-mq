@@ -13,7 +13,7 @@ import io.ztz.simple.mq.client.api.impl.ConsumerImpl;
 import io.ztz.simple.mq.client.api.impl.ProducerImpl;
 
 @Configuration
-@ComponentScan
+@ComponentScan("io.ztz.simple.mq")
 @EnableAutoConfiguration
 @PropertySource("classpath:simple-mq.properties")
 public class SimpleMQClientConfig {

@@ -1,4 +1,4 @@
-package io.simple.mq.io.serialize;
+package io.ztz.simple.mq.io.serialize;
 
 /**
  * 序列化接口

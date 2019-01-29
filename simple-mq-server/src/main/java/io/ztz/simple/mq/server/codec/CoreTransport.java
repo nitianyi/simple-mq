@@ -16,6 +16,8 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 import io.ztz.simple.mq.codec.server.MessageDecoder;
 import io.ztz.simple.mq.codec.server.MessageEncoder;
+import io.ztz.simple.mq.io.serialize.SerializeProtocolEnum;
+import io.ztz.simple.mq.io.serialize.Serializer;
 import io.ztz.simple.mq.server.SimpleMQServerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,12 +41,14 @@ public class CoreTransport implements InitializingBean {
 
 					@Override
 					protected void initChannel(Channel channel) throws Exception {
+						String serializerConfig = env.getProperty("server.msg.serializer");
+						Serializer serializer = context.getSerializer(SerializeProtocolEnum.getByName(serializerConfig));
 						// 添加业务处理器
 						channel.pipeline()
 							.addLast(new LengthFieldBasedFrameDecoder(65535, 0, 2, 0, 2))
-							.addLast(new MessageDecoder())
+							.addLast(new MessageDecoder(serializer))
 							.addLast(new LengthFieldPrepender(2))
-							.addLast(new MessageEncoder())
+							.addLast(new MessageEncoder(serializer))
 							.addLast(new ServerMessageHandler(context));
 					}
 			});

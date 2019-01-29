@@ -3,9 +3,9 @@ package io.simple.mq.io.serialize.impl;
 import org.junit.Test;
 
 import io.simple.mq.io.serialize.BaseTest;
-import io.simple.mq.io.serialize.impl.MessagePackSerializer;
 import io.ztz.simple.mq.api.dto.SimpleMsgRequest;
 import io.ztz.simple.mq.api.enums.MsgTypeEnum;
+import io.ztz.simple.mq.io.serialize.impl.MessagePackSerializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

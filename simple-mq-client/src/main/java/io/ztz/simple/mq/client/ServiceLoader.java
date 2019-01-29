@@ -3,6 +3,8 @@ package io.ztz.simple.mq.client;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -16,6 +18,9 @@ import org.springframework.stereotype.Repository;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
+import io.ztz.simple.mq.io.serialize.SerializeProtocolEnum;
+import io.ztz.simple.mq.io.serialize.Serializer;
+import io.ztz.simple.mq.io.serialize.SerializerFactory;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,6 +32,9 @@ public class ServiceLoader implements ApplicationContextAware, InitializingBean,
 	@Autowired
 	private Environment env;
 	
+	@Autowired
+	private SerializerFactory serializerFactory;
+		
 	private List<ClientEngine> engines = Lists.newArrayList();
 	
 	@Override
@@ -42,6 +50,9 @@ public class ServiceLoader implements ApplicationContextAware, InitializingBean,
 			throw new Exception("broker.hosts not config yet");
 		}
 		
+		String serializerConfig = env.getProperty("msg.serializer");
+		Serializer serializer = serializerFactory.getSerializer(SerializeProtocolEnum.getByName(serializerConfig));
+		
 		Arrays.stream(serverStr.split(",")).forEach(h -> {
 			try {
 				String[] hosts = h.split(":");
@@ -49,7 +60,7 @@ public class ServiceLoader implements ApplicationContextAware, InitializingBean,
 					throw new RuntimeException("invalid host config, eg like host:port");
 				}
 				
-				connectBrokers(hosts[0], Integer.valueOf(hosts[1]));
+				connectBrokers(hosts[0], Integer.valueOf(hosts[1]), serializer);
 			} catch (Exception e) {
 				log.error("error occurs when connecting brokers", e);
 				throw new RuntimeException(e);
@@ -57,8 +68,8 @@ public class ServiceLoader implements ApplicationContextAware, InitializingBean,
 		});
 	}
 	
-	void connectBrokers(String host, int port) throws Exception {
-		ClientEngine engine = new ClientTransport(host, port);
+	void connectBrokers(String host, int port, Serializer serializer) throws Exception {
+		ClientEngine engine = new ClientTransport(host, port, serializer);
 		engine.start();
 		engines.add(engine);
 	}
@@ -77,6 +88,11 @@ public class ServiceLoader implements ApplicationContextAware, InitializingBean,
 				log.error("error when close the engines", e);
 			}
 		});
+	}
+	
+	@PostConstruct
+	private void init() {
+		
 	}
 
 }

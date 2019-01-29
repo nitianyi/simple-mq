@@ -3,7 +3,7 @@ package io.simple.mq.io.serialize.impl;
 import org.junit.Test;
 
 import io.simple.mq.io.serialize.BaseTest;
-import io.simple.mq.io.serialize.impl.JsonSerializer;
+import io.ztz.simple.mq.io.serialize.impl.JsonSerializer;
 import lombok.extern.slf4j.Slf4j;
 
 /**

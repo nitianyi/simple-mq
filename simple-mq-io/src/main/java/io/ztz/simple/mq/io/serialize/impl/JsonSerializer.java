@@ -1,4 +1,4 @@
-package io.simple.mq.io.serialize.impl;
+package io.ztz.simple.mq.io.serialize.impl;
 
 import java.nio.charset.Charset;
 
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 
-import io.simple.mq.io.serialize.Serializer;
+import io.ztz.simple.mq.io.serialize.Serializer;
 /**
  * Json implementation
  * @author Tony
